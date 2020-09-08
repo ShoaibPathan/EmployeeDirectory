@@ -9,12 +9,23 @@
 /* Begin PBXBuildFile section */
 		976549CE2508014300171037 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 976549CD2508014300171037 /* AppDelegate.swift */; };
 		976549D02508014300171037 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 976549CF2508014300171037 /* SceneDelegate.swift */; };
-		976549D22508014300171037 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 976549D12508014300171037 /* ViewController.swift */; };
-		976549D52508014300171037 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 976549D32508014300171037 /* Main.storyboard */; };
 		976549D82508014300171037 /* EmployeeDirectory.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 976549D62508014300171037 /* EmployeeDirectory.xcdatamodeld */; };
 		976549DA2508014400171037 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 976549D92508014400171037 /* Assets.xcassets */; };
 		976549DD2508014400171037 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 976549DB2508014400171037 /* LaunchScreen.storyboard */; };
-		976549E82508014400171037 /* EmployeeDirectoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 976549E72508014400171037 /* EmployeeDirectoryTests.swift */; };
+		976549F3250801B700171037 /* EmployeeListContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 976549F2250801B700171037 /* EmployeeListContainerViewController.swift */; };
+		976549F4250801B700171037 /* EmployeeListContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 976549F2250801B700171037 /* EmployeeListContainerViewController.swift */; };
+		976549FA2508022C00171037 /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 976549F92508022C00171037 /* UIViewController+Extensions.swift */; };
+		976549FB2508022C00171037 /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 976549F92508022C00171037 /* UIViewController+Extensions.swift */; };
+		976549FD2508029300171037 /* EmployeeListCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 976549FC2508029300171037 /* EmployeeListCollectionViewController.swift */; };
+		976549FE2508029300171037 /* EmployeeListCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 976549FC2508029300171037 /* EmployeeListCollectionViewController.swift */; };
+		97FB74EF250804A4008E6154 /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97FB74EE250804A4008E6154 /* UIView+Extensions.swift */; };
+		97FB74F1250806C4008E6154 /* EmployeeListNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97FB74F0250806C4008E6154 /* EmployeeListNavigationController.swift */; };
+		97FB74F2250806C4008E6154 /* EmployeeListNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97FB74F0250806C4008E6154 /* EmployeeListNavigationController.swift */; };
+		97FB74F5250807A1008E6154 /* EmployeeListContainerViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97FB74F4250807A1008E6154 /* EmployeeListContainerViewControllerTests.swift */; };
+		97FB74F7250807B3008E6154 /* EmployeeListNavigationControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97FB74F6250807B3008E6154 /* EmployeeListNavigationControllerTests.swift */; };
+		97FB74FA250808D7008E6154 /* UIViewController+TestExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97FB74F9250808D7008E6154 /* UIViewController+TestExtensions.swift */; };
+		97FB74FC25080924008E6154 /* XCTestCase+TestExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97FB74FB25080924008E6154 /* XCTestCase+TestExtensions.swift */; };
+		97FB74FD25080A4B008E6154 /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97FB74EE250804A4008E6154 /* UIView+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,15 +42,21 @@
 		976549CA2508014300171037 /* EmployeeDirectory.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EmployeeDirectory.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		976549CD2508014300171037 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		976549CF2508014300171037 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		976549D12508014300171037 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		976549D42508014300171037 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		976549D72508014300171037 /* EmployeeDirectory.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = EmployeeDirectory.xcdatamodel; sourceTree = "<group>"; };
 		976549D92508014400171037 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		976549DC2508014400171037 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		976549DE2508014400171037 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		976549E32508014400171037 /* EmployeeDirectoryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EmployeeDirectoryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		976549E72508014400171037 /* EmployeeDirectoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeDirectoryTests.swift; sourceTree = "<group>"; };
 		976549E92508014400171037 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		976549F2250801B700171037 /* EmployeeListContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeListContainerViewController.swift; sourceTree = "<group>"; };
+		976549F92508022C00171037 /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
+		976549FC2508029300171037 /* EmployeeListCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeListCollectionViewController.swift; sourceTree = "<group>"; };
+		97FB74EE250804A4008E6154 /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
+		97FB74F0250806C4008E6154 /* EmployeeListNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeListNavigationController.swift; sourceTree = "<group>"; };
+		97FB74F4250807A1008E6154 /* EmployeeListContainerViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeListContainerViewControllerTests.swift; sourceTree = "<group>"; };
+		97FB74F6250807B3008E6154 /* EmployeeListNavigationControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeListNavigationControllerTests.swift; sourceTree = "<group>"; };
+		97FB74F9250808D7008E6154 /* UIViewController+TestExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+TestExtensions.swift"; sourceTree = "<group>"; };
+		97FB74FB25080924008E6154 /* XCTestCase+TestExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+TestExtensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,14 +98,10 @@
 		976549CC2508014300171037 /* EmployeeDirectory */ = {
 			isa = PBXGroup;
 			children = (
-				976549CD2508014300171037 /* AppDelegate.swift */,
-				976549CF2508014300171037 /* SceneDelegate.swift */,
-				976549D12508014300171037 /* ViewController.swift */,
-				976549D32508014300171037 /* Main.storyboard */,
-				976549D92508014400171037 /* Assets.xcassets */,
-				976549DB2508014400171037 /* LaunchScreen.storyboard */,
-				976549DE2508014400171037 /* Info.plist */,
-				976549D62508014300171037 /* EmployeeDirectory.xcdatamodeld */,
+				976549F6250801E400171037 /* App Root */,
+				976549F7250801F500171037 /* Employee List */,
+				976549F82508021600171037 /* Extensions */,
+				976549F5250801D800171037 /* Supporting Files */,
 			);
 			path = EmployeeDirectory;
 			sourceTree = "<group>";
@@ -96,10 +109,60 @@
 		976549E62508014400171037 /* EmployeeDirectoryTests */ = {
 			isa = PBXGroup;
 			children = (
-				976549E72508014400171037 /* EmployeeDirectoryTests.swift */,
+				97FB74F8250808B1008E6154 /* Extensions */,
 				976549E92508014400171037 /* Info.plist */,
 			);
 			path = EmployeeDirectoryTests;
+			sourceTree = "<group>";
+		};
+		976549F5250801D800171037 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				976549D62508014300171037 /* EmployeeDirectory.xcdatamodeld */,
+				976549D92508014400171037 /* Assets.xcassets */,
+				976549DB2508014400171037 /* LaunchScreen.storyboard */,
+				976549DE2508014400171037 /* Info.plist */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		976549F6250801E400171037 /* App Root */ = {
+			isa = PBXGroup;
+			children = (
+				976549CD2508014300171037 /* AppDelegate.swift */,
+				976549CF2508014300171037 /* SceneDelegate.swift */,
+			);
+			path = "App Root";
+			sourceTree = "<group>";
+		};
+		976549F7250801F500171037 /* Employee List */ = {
+			isa = PBXGroup;
+			children = (
+				976549FC2508029300171037 /* EmployeeListCollectionViewController.swift */,
+				976549F2250801B700171037 /* EmployeeListContainerViewController.swift */,
+				97FB74F4250807A1008E6154 /* EmployeeListContainerViewControllerTests.swift */,
+				97FB74F0250806C4008E6154 /* EmployeeListNavigationController.swift */,
+				97FB74F6250807B3008E6154 /* EmployeeListNavigationControllerTests.swift */,
+			);
+			path = "Employee List";
+			sourceTree = "<group>";
+		};
+		976549F82508021600171037 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				97FB74EE250804A4008E6154 /* UIView+Extensions.swift */,
+				976549F92508022C00171037 /* UIViewController+Extensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		97FB74F8250808B1008E6154 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				97FB74F9250808D7008E6154 /* UIViewController+TestExtensions.swift */,
+				97FB74FB25080924008E6154 /* XCTestCase+TestExtensions.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -185,7 +248,6 @@
 			files = (
 				976549DD2508014400171037 /* LaunchScreen.storyboard in Resources */,
 				976549DA2508014400171037 /* Assets.xcassets in Resources */,
-				976549D52508014300171037 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -203,8 +265,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				976549D22508014300171037 /* ViewController.swift in Sources */,
+				97FB74EF250804A4008E6154 /* UIView+Extensions.swift in Sources */,
+				97FB74F1250806C4008E6154 /* EmployeeListNavigationController.swift in Sources */,
+				976549F3250801B700171037 /* EmployeeListContainerViewController.swift in Sources */,
 				976549CE2508014300171037 /* AppDelegate.swift in Sources */,
+				976549FD2508029300171037 /* EmployeeListCollectionViewController.swift in Sources */,
+				976549FA2508022C00171037 /* UIViewController+Extensions.swift in Sources */,
 				976549D02508014300171037 /* SceneDelegate.swift in Sources */,
 				976549D82508014300171037 /* EmployeeDirectory.xcdatamodeld in Sources */,
 			);
@@ -214,7 +280,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				976549E82508014400171037 /* EmployeeDirectoryTests.swift in Sources */,
+				976549FE2508029300171037 /* EmployeeListCollectionViewController.swift in Sources */,
+				97FB74F5250807A1008E6154 /* EmployeeListContainerViewControllerTests.swift in Sources */,
+				97FB74FA250808D7008E6154 /* UIViewController+TestExtensions.swift in Sources */,
+				97FB74FD25080A4B008E6154 /* UIView+Extensions.swift in Sources */,
+				97FB74F2250806C4008E6154 /* EmployeeListNavigationController.swift in Sources */,
+				97FB74FC25080924008E6154 /* XCTestCase+TestExtensions.swift in Sources */,
+				976549F4250801B700171037 /* EmployeeListContainerViewController.swift in Sources */,
+				976549FB2508022C00171037 /* UIViewController+Extensions.swift in Sources */,
+				97FB74F7250807B3008E6154 /* EmployeeListNavigationControllerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -229,14 +303,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		976549D32508014300171037 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				976549D42508014300171037 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		976549DB2508014400171037 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -367,7 +433,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = EmployeeDirectory/Info.plist;
+				INFOPLIST_FILE = "EmployeeDirectory/Supporting FIles/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -384,7 +450,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = EmployeeDirectory/Info.plist;
+				INFOPLIST_FILE = "EmployeeDirectory/Supporting FIles/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
