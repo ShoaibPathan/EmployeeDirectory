@@ -3,12 +3,17 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		03024C916FB2A0F8C434EF91 /* Pods_EmployeeDirectoryTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95839B0ED2C78729993F1936 /* Pods_EmployeeDirectoryTests.framework */; };
 		79205802BA36C63198D45AA7 /* Pods_EmployeeDirectory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EEA1738B10F9CDF7D424CD5 /* Pods_EmployeeDirectory.framework */; };
+		9705DE51250837F600A43645 /* EmployeeListEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9705DE50250837F600A43645 /* EmployeeListEndpoint.swift */; };
+		9705DE52250837F600A43645 /* EmployeeListEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9705DE50250837F600A43645 /* EmployeeListEndpoint.swift */; };
+		9705DE542508380300A43645 /* EmployeeListEndpointTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9705DE532508380300A43645 /* EmployeeListEndpointTests.swift */; };
+		9705DE5725083A3F00A43645 /* URLProtocolMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9705DE5625083A3F00A43645 /* URLProtocolMock.swift */; };
+		9705DE5925083E0000A43645 /* Employee+TestExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9705DE5825083E0000A43645 /* Employee+TestExtensions.swift */; };
 		976549CE2508014300171037 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 976549CD2508014300171037 /* AppDelegate.swift */; };
 		976549D02508014300171037 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 976549CF2508014300171037 /* SceneDelegate.swift */; };
 		976549D82508014300171037 /* EmployeeDirectory.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 976549D62508014300171037 /* EmployeeDirectory.xcdatamodeld */; };
@@ -47,6 +52,10 @@
 		31F3D357458946F3DA5E27CE /* Pods-EmployeeDirectory.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EmployeeDirectory.release.xcconfig"; path = "Target Support Files/Pods-EmployeeDirectory/Pods-EmployeeDirectory.release.xcconfig"; sourceTree = "<group>"; };
 		4EEA1738B10F9CDF7D424CD5 /* Pods_EmployeeDirectory.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EmployeeDirectory.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		95839B0ED2C78729993F1936 /* Pods_EmployeeDirectoryTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EmployeeDirectoryTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9705DE50250837F600A43645 /* EmployeeListEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeListEndpoint.swift; sourceTree = "<group>"; };
+		9705DE532508380300A43645 /* EmployeeListEndpointTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeListEndpointTests.swift; sourceTree = "<group>"; };
+		9705DE5625083A3F00A43645 /* URLProtocolMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLProtocolMock.swift; sourceTree = "<group>"; };
+		9705DE5825083E0000A43645 /* Employee+TestExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Employee+TestExtensions.swift"; sourceTree = "<group>"; };
 		976549CA2508014300171037 /* EmployeeDirectory.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EmployeeDirectory.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		976549CD2508014300171037 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		976549CF2508014300171037 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -92,6 +101,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9705DE5525083A0600A43645 /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				9705DE5625083A3F00A43645 /* URLProtocolMock.swift */,
+			);
+			path = Mocks;
+			sourceTree = "<group>";
+		};
 		976549C12508014300171037 = {
 			isa = PBXGroup;
 			children = (
@@ -129,6 +146,7 @@
 			children = (
 				97FB74F8250808B1008E6154 /* Extensions */,
 				976549E92508014400171037 /* Info.plist */,
+				9705DE5525083A0600A43645 /* Mocks */,
 			);
 			path = EmployeeDirectoryTests;
 			sourceTree = "<group>";
@@ -159,6 +177,8 @@
 				976549FC2508029300171037 /* EmployeeListCollectionViewController.swift */,
 				976549F2250801B700171037 /* EmployeeListContainerViewController.swift */,
 				97FB74F4250807A1008E6154 /* EmployeeListContainerViewControllerTests.swift */,
+				9705DE50250837F600A43645 /* EmployeeListEndpoint.swift */,
+				9705DE532508380300A43645 /* EmployeeListEndpointTests.swift */,
 				97FB74F0250806C4008E6154 /* EmployeeListNavigationController.swift */,
 				97FB74F6250807B3008E6154 /* EmployeeListNavigationControllerTests.swift */,
 			);
@@ -177,6 +197,7 @@
 		97FB74F8250808B1008E6154 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				9705DE5825083E0000A43645 /* Employee+TestExtensions.swift */,
 				97FB74F9250808D7008E6154 /* UIViewController+TestExtensions.swift */,
 				97FB74FB25080924008E6154 /* XCTestCase+TestExtensions.swift */,
 			);
@@ -209,7 +230,6 @@
 				DC056883041794785A5F7278 /* Pods-EmployeeDirectoryTests.debug.xcconfig */,
 				E4CA40F4BC2D36FE3733E822 /* Pods-EmployeeDirectoryTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -402,6 +422,7 @@
 				97FB750025080CBE008E6154 /* Employee.swift in Sources */,
 				97FB74F1250806C4008E6154 /* EmployeeListNavigationController.swift in Sources */,
 				976549F3250801B700171037 /* EmployeeListContainerViewController.swift in Sources */,
+				9705DE51250837F600A43645 /* EmployeeListEndpoint.swift in Sources */,
 				976549CE2508014300171037 /* AppDelegate.swift in Sources */,
 				976549FD2508029300171037 /* EmployeeListCollectionViewController.swift in Sources */,
 				976549FA2508022C00171037 /* UIViewController+Extensions.swift in Sources */,
@@ -417,9 +438,13 @@
 				976549FE2508029300171037 /* EmployeeListCollectionViewController.swift in Sources */,
 				97FB74F5250807A1008E6154 /* EmployeeListContainerViewControllerTests.swift in Sources */,
 				97FB74FA250808D7008E6154 /* UIViewController+TestExtensions.swift in Sources */,
+				9705DE542508380300A43645 /* EmployeeListEndpointTests.swift in Sources */,
+				9705DE5925083E0000A43645 /* Employee+TestExtensions.swift in Sources */,
 				97FB750125080CBE008E6154 /* Employee.swift in Sources */,
+				9705DE5725083A3F00A43645 /* URLProtocolMock.swift in Sources */,
 				97FB74FD25080A4B008E6154 /* UIView+Extensions.swift in Sources */,
 				97FB74F2250806C4008E6154 /* EmployeeListNavigationController.swift in Sources */,
+				9705DE52250837F600A43645 /* EmployeeListEndpoint.swift in Sources */,
 				97FB74FC25080924008E6154 /* XCTestCase+TestExtensions.swift in Sources */,
 				976549F4250801B700171037 /* EmployeeListContainerViewController.swift in Sources */,
 				976549FB2508022C00171037 /* UIViewController+Extensions.swift in Sources */,
