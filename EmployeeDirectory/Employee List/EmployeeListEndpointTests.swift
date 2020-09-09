@@ -31,7 +31,7 @@ class EmployeeListEndpointTests: XCTestCase {
     
     func testSuccess() throws {
         let expectation = self.expectation(description: "endpoint expection")
-        let employees = (0...Int.random(in: 3...6)).map { _ in Employee.test }
+        let employees = Employee.testMany
         let data = try encoder.encode(employees)
         
         URLProtocolMock.requestHandler = { request in

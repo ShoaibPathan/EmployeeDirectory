@@ -41,7 +41,7 @@ class EmployeeListEndpoint: EmployeeListEndpointProtocol {
 }
 
 extension EmployeeListEndpoint {
-    enum Version {
+    enum Version: CaseIterable {
         case success
         case error
         case empty
