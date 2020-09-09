@@ -19,6 +19,8 @@
 		9705DE5F2508481300A43645 /* EmployeeListModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9705DE5E2508481300A43645 /* EmployeeListModelTests.swift */; };
 		972F72962508F89700B123DD /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 972F72952508F89700B123DD /* ImageDownloader.swift */; };
 		972F72982509287200B123DD /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 972F72952508F89700B123DD /* ImageDownloader.swift */; };
+		972F729C2509306700B123DD /* DataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 972F729B2509306700B123DD /* DataStack.swift */; };
+		972F729D2509306700B123DD /* DataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 972F729B2509306700B123DD /* DataStack.swift */; };
 		976549CE2508014300171037 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 976549CD2508014300171037 /* AppDelegate.swift */; };
 		976549D02508014300171037 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 976549CF2508014300171037 /* SceneDelegate.swift */; };
 		976549D82508014300171037 /* EmployeeDirectory.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 976549D62508014300171037 /* EmployeeDirectory.xcdatamodeld */; };
@@ -64,6 +66,7 @@
 		9705DE5A250847D200A43645 /* EmployeeListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeListModel.swift; sourceTree = "<group>"; };
 		9705DE5E2508481300A43645 /* EmployeeListModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeListModelTests.swift; sourceTree = "<group>"; };
 		972F72952508F89700B123DD /* ImageDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDownloader.swift; sourceTree = "<group>"; };
+		972F729B2509306700B123DD /* DataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStack.swift; sourceTree = "<group>"; };
 		976549CA2508014300171037 /* EmployeeDirectory.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EmployeeDirectory.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		976549CD2508014300171037 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		976549CF2508014300171037 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -125,6 +128,14 @@
 			path = Images;
 			sourceTree = "<group>";
 		};
+		972F729A2509303500B123DD /* Persistence */ = {
+			isa = PBXGroup;
+			children = (
+				972F729B2509306700B123DD /* DataStack.swift */,
+			);
+			path = Persistence;
+			sourceTree = "<group>";
+		};
 		976549C12508014300171037 = {
 			isa = PBXGroup;
 			children = (
@@ -153,6 +164,7 @@
 				976549F7250801F500171037 /* Employee List */,
 				976549F82508021600171037 /* Extensions */,
 				972F72942508F83900B123DD /* Images */,
+				972F729A2509303500B123DD /* Persistence */,
 				976549F5250801D800171037 /* Supporting Files */,
 			);
 			path = EmployeeDirectory;
@@ -462,6 +474,7 @@
 				97FB74F1250806C4008E6154 /* EmployeeListNavigationController.swift in Sources */,
 				976549F3250801B700171037 /* EmployeeListContainerViewController.swift in Sources */,
 				9705DE51250837F600A43645 /* EmployeeListEndpoint.swift in Sources */,
+				972F729C2509306700B123DD /* DataStack.swift in Sources */,
 				976549CE2508014300171037 /* AppDelegate.swift in Sources */,
 				976549FD2508029300171037 /* EmployeeListCollectionViewController.swift in Sources */,
 				976549FA2508022C00171037 /* UIViewController+Extensions.swift in Sources */,
@@ -478,6 +491,7 @@
 				976549FE2508029300171037 /* EmployeeListCollectionViewController.swift in Sources */,
 				97FB74F5250807A1008E6154 /* EmployeeListContainerViewControllerTests.swift in Sources */,
 				97FB74FA250808D7008E6154 /* UIViewController+TestExtensions.swift in Sources */,
+				972F729D2509306700B123DD /* DataStack.swift in Sources */,
 				9705DE542508380300A43645 /* EmployeeListEndpointTests.swift in Sources */,
 				9705DE5925083E0000A43645 /* Employee+TestExtensions.swift in Sources */,
 				97FB750125080CBE008E6154 /* Employee.swift in Sources */,

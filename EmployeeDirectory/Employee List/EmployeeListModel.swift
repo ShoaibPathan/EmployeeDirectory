@@ -6,6 +6,7 @@
 //  Copyright © 2020 Patrick Maltagliati. All rights reserved.
 //
 
+import CoreData
 import RxRelay
 import RxSwift
 import UIKit
@@ -18,12 +19,13 @@ protocol EmployeeListModelProtocol {
 
 class EmployeeListModel: EmployeeListModelProtocol {
     let snapshot: Observable<NSDiffableDataSourceSnapshot<Section, Item>>
+    private let dataStack: DataStack
     private let employeeListEndpoint: EmployeeListEndpointProtocol
     private let scheduler: SchedulerType
     private let disposeBag = DisposeBag()
     private let employeesRelay = BehaviorRelay<[Employee]>(value: [])
     private let imageDownloader = ImageDownloader()
-    private let imageRelay = BehaviorRelay<(UUID, UIImage)?>(value: nil)
+    private let imageRelay = BehaviorRelay<(UUID, UIImage, URL)?>(value: nil)
     private var loadingImages = Set<UUID>()
 
     var loadImageObserver: AnyObserver<EmployeeListModel.Item> {
@@ -33,17 +35,20 @@ class EmployeeListModel: EmployeeListModelProtocol {
             let id = item.id
             guard !self.loadingImages.contains(id) else { return }
             self.loadingImages.insert(id)
-            self.loadSmallPhotoForItemWith(id: item.id)
+            self.getSmallPhotoFromCacheOrLoadFromUrlForItemWith(id: item.id)
         }
     }
 
-    init(employeeListEndpoint: EmployeeListEndpointProtocol = EmployeeListEndpoint(),
+    init(dataStack: DataStack,
+         employeeListEndpoint: EmployeeListEndpointProtocol = EmployeeListEndpoint(),
          scheduler: SchedulerType = SerialDispatchQueueScheduler(qos: .userInteractive))
     {
+        self.dataStack = dataStack
         self.employeeListEndpoint = employeeListEndpoint
         self.scheduler = scheduler
         snapshot = Observable
             .combineLatest(employeesRelay, imageRelay)
+            .subscribeOn(scheduler)
             .scan(NSDiffableDataSourceSnapshot<Section, Item>.empty) { (previousSnapshot, values) -> NSDiffableDataSourceSnapshot<Section, Item> in
                 var newSnapshot = NSDiffableDataSourceSnapshot<Section, Item>.empty
                 let (employees, imageValues) = values
@@ -52,7 +57,7 @@ class EmployeeListModel: EmployeeListModelProtocol {
                     let title = employee.fullName
                     let subtitle = employee.team
                     let image: UIImage
-                    if let (newImageId, newImage) = imageValues, id == newImageId {
+                    if let (newImageId, newImage, _) = imageValues, id == newImageId {
                         image = newImage
                     } else if let existingImage = previousSnapshot.itemIdentifiers.first(where: { $0.id == id })?.image {
                         image = existingImage
@@ -64,6 +69,28 @@ class EmployeeListModel: EmployeeListModelProtocol {
                 newSnapshot.appendItems(items, toSection: .main)
                 return newSnapshot
             }
+
+        imageRelay
+            .compactMap { $0 }
+            .observeOn(scheduler)
+            .subscribe { [weak self] event in
+                guard case let .next(values) = event else { return }
+                let (_, image, url) = values
+                guard let context = self?.dataStack.persistentContainer.viewContext else { return }
+                guard let imageManagedObject = NSEntityDescription.insertNewObject(forEntityName: "Image", into: context) as? ImageMO else { return }
+                imageManagedObject.id = url.absoluteString
+                imageManagedObject.value = image
+            }
+            .disposed(by: disposeBag)
+
+        imageRelay
+            .compactMap { $0 }
+            .debounce(.seconds(3), scheduler: scheduler)
+            .observeOn(scheduler)
+            .subscribe { [weak self] _ in
+                self?.dataStack.saveContext()
+            }
+            .disposed(by: disposeBag)
     }
 
     func load(_ version: EmployeeListEndpoint.Version) {
@@ -79,7 +106,7 @@ class EmployeeListModel: EmployeeListModelProtocol {
             .disposed(by: disposeBag)
     }
 
-    private func loadSmallPhotoForItemWith(id: UUID) {
+    private func getSmallPhotoFromCacheOrLoadFromUrlForItemWith(id: UUID) {
         employeesRelay
             .take(1)
             .compactMap { (employees: [Employee]) -> Employee? in employees.first(where: { $0.uuid == id }) }
@@ -87,17 +114,33 @@ class EmployeeListModel: EmployeeListModelProtocol {
                 guard let url = employee.photoSmall else { return nil }
                 return (employee.uuid, url)
             }
-            .flatMap { [weak self] (employee: (UUID, URL)) -> Single<(UUID, UIImage)> in
-                self?.imageDownloader
-                    .download(url: employee.1)
-                    .delaySubscription(.milliseconds(Int.random(in: 300 ... 3000)), scheduler: MainScheduler.instance)
-                    .map { image in (employee.0, image) } ?? Single.never()
-            }
             .asSingle()
+            .observeOn(scheduler)
             .subscribe(
                 onSuccess: { [weak self] values in
-                    self?.imageRelay.accept(values)
+                    let (id, url) = values
+                    let fetchRequest = NSFetchRequest<ImageMO>(entityName: "Image")
+                    fetchRequest.predicate = NSPredicate(format: "id = %@", url.absoluteString)
+                    let context = self?.dataStack.persistentContainer.viewContext
+                    if let image = try? context?.fetch(fetchRequest).first?.value as? UIImage {
+                        self?.imageRelay.accept((id, image, url))
+                    } else {
+                        self?.loadSmallPhotoForItemWith(id: id, url: url)
+                    }
                 },
+                onError: nil
+            )
+            .disposed(by: disposeBag)
+    }
+
+    private func loadSmallPhotoForItemWith(id: UUID, url: URL) {
+        imageDownloader
+            .download(url: url)
+            .delaySubscription(.milliseconds(Int.random(in: 300 ... 3000)), scheduler: scheduler)
+            .map { image in (id, image, url) }
+            .observeOn(scheduler)
+            .subscribe(
+                onSuccess: { [weak self] values in self?.imageRelay.accept(values) },
                 onError: nil
             )
             .disposed(by: disposeBag)

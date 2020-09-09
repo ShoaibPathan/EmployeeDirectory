@@ -10,11 +10,12 @@ import RxSwift
 import UIKit
 
 class EmployeeListContainerViewController: UIViewController {
-    private let employeeListModel = EmployeeListModel()
+    private let employeeListModel: EmployeeListModel
     private let listCollectionViewController: EmployeeListCollectionViewController
     private let disposeBag = DisposeBag()
 
-    init() {
+    init(dataStack: DataStack) {
+        employeeListModel = EmployeeListModel(dataStack: dataStack)
         listCollectionViewController = EmployeeListCollectionViewController(loadImageObserver: employeeListModel.loadImageObserver)
         super.init(nibName: nil, bundle: nil)
     }
