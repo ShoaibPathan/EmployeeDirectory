@@ -32,10 +32,14 @@ class EmployeeListEndpoint: EmployeeListEndpointProtocol {
                 guard (200...299).contains(httpResponse.statusCode) else {
                     return Single.error(EmployeeListEndpoint.Error.serverError)
                 }
-                guard let employees = try? self?.decoder.decode([Employee].self, from: data) else {
-                    return Single.error(EmployeeListEndpoint.Error.parsingError)
+                do {
+                    guard let response = try self?.decoder.decode(Response.self, from: data) else {
+                        return Single.error(EmployeeListEndpoint.Error.parsingError)
+                    }
+                    return Single.just(response.employees)
+                } catch {
+                    return Single.error(error)
                 }
-                return Single.just(employees)
         }
     }
 }
@@ -61,6 +65,10 @@ extension EmployeeListEndpoint {
     enum Error: Swift.Error {
         case serverError
         case parsingError
+    }
+    
+    struct Response: Codable {
+        let employees: [Employee]
     }
 }
 

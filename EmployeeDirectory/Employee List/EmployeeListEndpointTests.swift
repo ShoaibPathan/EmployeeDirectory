@@ -32,7 +32,8 @@ class EmployeeListEndpointTests: XCTestCase {
     func testSuccess() throws {
         let expectation = self.expectation(description: "endpoint expection")
         let employees = Employee.testMany
-        let data = try encoder.encode(employees)
+        let response = EmployeeListEndpoint.Response(employees: employees)
+        let data = try encoder.encode(response)
         
         URLProtocolMock.requestHandler = { request in
             let requestUrl = try XCTUnwrap(request.url)
@@ -86,8 +87,9 @@ class EmployeeListEndpointTests: XCTestCase {
     
     func testSuccessServerError() throws {
         let expectation = self.expectation(description: "endpoint expection")
-        let employees = (0...Int.random(in: 3...6)).map { _ in Employee.test }
-        let data = try encoder.encode(employees)
+        let employees = Employee.testMany
+        let response = EmployeeListEndpoint.Response(employees: employees)
+        let data = try encoder.encode(response)
         
         URLProtocolMock.requestHandler = { request in
             let requestUrl = try XCTUnwrap(request.url)
@@ -131,7 +133,8 @@ class EmployeeListEndpointTests: XCTestCase {
     
     func testEmpty() throws {
         let expectation = self.expectation(description: "endpoint expection")
-        let data = try encoder.encode([Employee]())
+        let response = EmployeeListEndpoint.Response(employees: [])
+        let data = try encoder.encode(response)
         
         URLProtocolMock.requestHandler = { request in
             let requestUrl = try XCTUnwrap(request.url)
