@@ -6,30 +6,31 @@
 //  Copyright © 2020 Patrick Maltagliati. All rights reserved.
 //
 
-import UIKit
 import RxSwift
+import UIKit
 
 class EmployeeListContainerViewController: UIViewController {
     private let employeeListModel = EmployeeListModel()
     private let listCollectionViewController: EmployeeListCollectionViewController
     private let disposeBag = DisposeBag()
-    
+
     init() {
         listCollectionViewController = EmployeeListCollectionViewController(loadImageObserver: employeeListModel.loadImageObserver)
         super.init(nibName: nil, bundle: nil)
     }
-    
-    required init?(coder: NSCoder) {
+
+    @available(*, unavailable)
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Employees"
-        
+
         add(listCollectionViewController)
         listCollectionViewController.pinToEdges(of: view)
-        
+
         employeeListModel
             .snapshot
             .observeOn(MainScheduler.instance)
@@ -38,9 +39,9 @@ class EmployeeListContainerViewController: UIViewController {
                     return
                 }
                 self?.listCollectionViewController.apply(snapshot: snapshot)
-        }
+            }
             .disposed(by: disposeBag)
-        
+
         employeeListModel.load(.success)
     }
 }

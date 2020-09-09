@@ -6,14 +6,14 @@
 //  Copyright © 2020 Patrick Maltagliati. All rights reserved.
 //
 
-import XCTest
 import RxSwift
+import XCTest
 
 class EmployeeListEndpointTests: XCTestCase {
     private var testObject: EmployeeListEndpoint!
     private var encoder: JSONEncoder!
     private var disposeBag: DisposeBag!
-    
+
     override func setUpWithError() throws {
         let configuration = URLSessionConfiguration.default
         configuration.protocolClasses = [URLProtocolMock.self]
@@ -23,119 +23,119 @@ class EmployeeListEndpointTests: XCTestCase {
         encoder = JSONEncoder()
         disposeBag = DisposeBag()
     }
-    
+
     override func tearDownWithError() throws {
         URLProtocolMock.requestHandler = nil
         URLProtocolMock.testCase = nil
     }
-    
+
     func testSuccess() throws {
         let expectation = self.expectation(description: "endpoint expection")
         let employees = Employee.testMany
         let response = EmployeeListEndpoint.Response(employees: employees)
         let data = try encoder.encode(response)
-        
+
         URLProtocolMock.requestHandler = { request in
             let requestUrl = try XCTUnwrap(request.url)
             XCTAssertEqual(requestUrl.absoluteString, "https://s3.amazonaws.com/sq-mobile-interview/employees.json")
             let response = HTTPURLResponse(url: requestUrl,
-                                           statusCode: Int.random(in: 200...299),
+                                           statusCode: Int.random(in: 200 ... 299),
                                            httpVersion: nil,
                                            headerFields: nil)
             let unwrappedResponse = try XCTUnwrap(response)
             return (unwrappedResponse, data)
         }
-        
+
         testObject
             .load(.success)
             .subscribe(
-                onSuccess: {  receivedEmployees in
+                onSuccess: { receivedEmployees in
                     XCTAssertEqual(receivedEmployees, employees)
                     expectation.fulfill()
-            },
+                },
                 onError: { _ in
                     XCTFail()
-            }
-        )
+                }
+            )
             .disposed(by: disposeBag)
         waitForExpectations(timeout: 1)
     }
-    
+
     func testSuccessCannotBeParsed() throws {
         let expectation = self.expectation(description: "endpoint expection")
-        
+
         URLProtocolMock.requestHandler = { request in
             let requestUrl = try XCTUnwrap(request.url)
             XCTAssertEqual(requestUrl.absoluteString, "https://s3.amazonaws.com/sq-mobile-interview/employees.json")
             let response = HTTPURLResponse(url: requestUrl,
-                                           statusCode: Int.random(in: 200...299),
+                                           statusCode: Int.random(in: 200 ... 299),
                                            httpVersion: nil,
                                            headerFields: nil)
             let unwrappedResponse = try XCTUnwrap(response)
             return (unwrappedResponse, Data(UUID().uuidString.utf8))
         }
-        
+
         testObject
             .load(.success)
             .subscribe(
                 onSuccess: { _ in XCTFail() },
                 onError: { _ in expectation.fulfill() }
-        )
+            )
             .disposed(by: disposeBag)
         waitForExpectations(timeout: 1)
     }
-    
+
     func testSuccessServerError() throws {
         let expectation = self.expectation(description: "endpoint expection")
         let employees = Employee.testMany
         let response = EmployeeListEndpoint.Response(employees: employees)
         let data = try encoder.encode(response)
-        
+
         URLProtocolMock.requestHandler = { request in
             let requestUrl = try XCTUnwrap(request.url)
             XCTAssertEqual(requestUrl.absoluteString, "https://s3.amazonaws.com/sq-mobile-interview/employees.json")
             let response = HTTPURLResponse(url: requestUrl,
-                                           statusCode: Int.random(in: 400...599),
+                                           statusCode: Int.random(in: 400 ... 599),
                                            httpVersion: nil,
                                            headerFields: nil)
             let unwrappedResponse = try XCTUnwrap(response)
             return (unwrappedResponse, data)
         }
-        
+
         testObject
             .load(.success)
             .subscribe(
                 onSuccess: { _ in XCTFail() },
                 onError: { _ in expectation.fulfill() }
-        )
+            )
             .disposed(by: disposeBag)
         waitForExpectations(timeout: 1)
     }
-    
+
     func testError() throws {
         let expectation = self.expectation(description: "endpoint expection")
-        
+
         URLProtocolMock.requestHandler = { request in
             let requestUrl = try XCTUnwrap(request.url)
             XCTAssertEqual(requestUrl.absoluteString, "https://s3.amazonaws.com/sq-mobile-interview/employees_malformed.json")
             throw NSError(domain: "", code: 0, userInfo: nil)
         }
-        
+
         testObject
             .load(.error)
             .subscribe(
                 onSuccess: { _ in XCTFail() },
                 onError: { _ in expectation.fulfill() }
-        )
+            )
             .disposed(by: disposeBag)
         waitForExpectations(timeout: 1)
     }
-    
+
     func testEmpty() throws {
         let expectation = self.expectation(description: "endpoint expection")
         let response = EmployeeListEndpoint.Response(employees: [])
         let data = try encoder.encode(response)
-        
+
         URLProtocolMock.requestHandler = { request in
             let requestUrl = try XCTUnwrap(request.url)
             XCTAssertEqual(requestUrl.absoluteString, "https://s3.amazonaws.com/sq-mobile-interview/employees_empty.json")
@@ -146,18 +146,18 @@ class EmployeeListEndpointTests: XCTestCase {
             let unwrappedResponse = try XCTUnwrap(response)
             return (unwrappedResponse, data)
         }
-        
+
         testObject
             .load(.empty)
             .subscribe(
-                onSuccess: {  receivedEmployees in
+                onSuccess: { receivedEmployees in
                     XCTAssertTrue(receivedEmployees.isEmpty)
                     expectation.fulfill()
-            },
+                },
                 onError: { _ in
                     XCTFail()
-            }
-        )
+                }
+            )
             .disposed(by: disposeBag)
         waitForExpectations(timeout: 1)
     }

@@ -7,8 +7,8 @@
 //
 
 import Foundation
-import RxSwift
 import RxCocoa
+import RxSwift
 
 protocol ImageDownloaderProtocol {
     func download(url: URL) -> Single<UIImage>
@@ -16,11 +16,11 @@ protocol ImageDownloaderProtocol {
 
 class ImageDownloader: ImageDownloaderProtocol {
     private let urlSession: URLSession
-    
+
     init(urlSession: URLSession = .shared) {
         self.urlSession = urlSession
     }
-    
+
     func download(url: URL) -> Single<UIImage> {
         urlSession
             .rx
@@ -28,14 +28,14 @@ class ImageDownloader: ImageDownloaderProtocol {
             .asSingle()
             .flatMap { response in
                 let (httpResponse, data) = response
-                guard (200...299).contains(httpResponse.statusCode) else {
+                guard (200 ... 299).contains(httpResponse.statusCode) else {
                     return Single.error(EmployeeListEndpoint.Error.serverError)
                 }
                 guard let image = UIImage(data: data) else {
                     return Single.error(ImageDownloader.Error.badData)
                 }
                 return Single.just(image)
-        }
+            }
     }
 }
 
@@ -44,4 +44,3 @@ extension ImageDownloader {
         case badData
     }
 }
-

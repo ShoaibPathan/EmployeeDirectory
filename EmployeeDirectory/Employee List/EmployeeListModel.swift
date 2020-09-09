@@ -6,12 +6,12 @@
 //  Copyright © 2020 Patrick Maltagliati. All rights reserved.
 //
 
-import UIKit
-import RxSwift
 import RxRelay
+import RxSwift
+import UIKit
 
 protocol EmployeeListModelProtocol {
-    var snapshot: Observable<EmployeeListModel.Snapshot>  { get }
+    var snapshot: Observable<EmployeeListModel.Snapshot> { get }
     var loadImageObserver: AnyObserver<EmployeeListModel.Item> { get }
     func load(_ version: EmployeeListEndpoint.Version)
 }
@@ -25,7 +25,7 @@ class EmployeeListModel: EmployeeListModelProtocol {
     private let imageDownloader = ImageDownloader()
     private let imageRelay = BehaviorRelay<(UUID, UIImage)?>(value: nil)
     private var loadingImages = Set<UUID>()
-    
+
     var loadImageObserver: AnyObserver<EmployeeListModel.Item> {
         AnyObserver<EmployeeListModel.Item> { [weak self] event in
             guard case let .next(item) = event else { return }
@@ -36,12 +36,13 @@ class EmployeeListModel: EmployeeListModelProtocol {
             self.loadSmallPhotoForItemWith(id: item.id)
         }
     }
-    
+
     init(employeeListEndpoint: EmployeeListEndpointProtocol = EmployeeListEndpoint(),
-         scheduler: SchedulerType = SerialDispatchQueueScheduler(qos: .userInteractive)) {
+         scheduler: SchedulerType = SerialDispatchQueueScheduler(qos: .userInteractive))
+    {
         self.employeeListEndpoint = employeeListEndpoint
         self.scheduler = scheduler
-        self.snapshot = Observable
+        snapshot = Observable
             .combineLatest(employeesRelay, imageRelay)
             .scan(NSDiffableDataSourceSnapshot<Section, Item>.empty) { (previousSnapshot, values) -> NSDiffableDataSourceSnapshot<Section, Item> in
                 var newSnapshot = NSDiffableDataSourceSnapshot<Section, Item>.empty
@@ -62,9 +63,9 @@ class EmployeeListModel: EmployeeListModelProtocol {
                 }
                 newSnapshot.appendItems(items, toSection: .main)
                 return newSnapshot
-        }
+            }
     }
-    
+
     func load(_ version: EmployeeListEndpoint.Version) {
         employeeListEndpoint
             .load(version)
@@ -73,10 +74,11 @@ class EmployeeListModel: EmployeeListModelProtocol {
                 onSuccess: { [weak self] employees in
                     self?.employeesRelay.accept(employees)
                 },
-                onError: { _ in }) /// TODO: Handle Error
+                onError: { _ in }
+            ) // TODO: Handle Error
             .disposed(by: disposeBag)
     }
-    
+
     private func loadSmallPhotoForItemWith(id: UUID) {
         employeesRelay
             .take(1)
@@ -84,31 +86,31 @@ class EmployeeListModel: EmployeeListModelProtocol {
             .compactMap { (employee: Employee) -> (UUID, URL)? in
                 guard let url = employee.photoSmall else { return nil }
                 return (employee.uuid, url)
-        }
-        .flatMap { [weak self] (employee: (UUID, URL)) -> Single<(UUID, UIImage)> in
-            self?.imageDownloader
-                .download(url: employee.1)
-                .delaySubscription(.milliseconds(Int.random(in: 300...3000)), scheduler: MainScheduler.instance)
-                .map { image in (employee.0, image) } ?? Single.never()
-        }
-        .asSingle()
-        .subscribe(
-            onSuccess: { [weak self] (values) in
-                self?.imageRelay.accept(values)
-            },
-            onError: nil
-        )
+            }
+            .flatMap { [weak self] (employee: (UUID, URL)) -> Single<(UUID, UIImage)> in
+                self?.imageDownloader
+                    .download(url: employee.1)
+                    .delaySubscription(.milliseconds(Int.random(in: 300 ... 3000)), scheduler: MainScheduler.instance)
+                    .map { image in (employee.0, image) } ?? Single.never()
+            }
+            .asSingle()
+            .subscribe(
+                onSuccess: { [weak self] values in
+                    self?.imageRelay.accept(values)
+                },
+                onError: nil
+            )
             .disposed(by: disposeBag)
     }
 }
 
 extension EmployeeListModel {
     typealias Snapshot = NSDiffableDataSourceSnapshot<EmployeeListModel.Section, EmployeeListModel.Item>
-    
+
     enum Section {
         case main
     }
-    
+
     struct Item: Hashable {
         let id: UUID
         let title: String

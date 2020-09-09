@@ -7,8 +7,8 @@
 //
 
 import Foundation
-import RxSwift
 import RxCocoa
+import RxSwift
 
 protocol EmployeeListEndpointProtocol {
     func load(_ version: EmployeeListEndpoint.Version) -> Single<[Employee]>
@@ -17,11 +17,11 @@ protocol EmployeeListEndpointProtocol {
 class EmployeeListEndpoint: EmployeeListEndpointProtocol {
     private let urlSession: URLSession
     private let decoder = JSONDecoder()
-    
+
     init(urlSession: URLSession = .shared) {
         self.urlSession = urlSession
     }
-    
+
     func load(_ version: EmployeeListEndpoint.Version) -> Single<[Employee]> {
         urlSession
             .rx
@@ -29,7 +29,7 @@ class EmployeeListEndpoint: EmployeeListEndpointProtocol {
             .asSingle()
             .flatMap { [weak self] response in
                 let (httpResponse, data) = response
-                guard (200...299).contains(httpResponse.statusCode) else {
+                guard (200 ... 299).contains(httpResponse.statusCode) else {
                     return Single.error(EmployeeListEndpoint.Error.serverError)
                 }
                 do {
@@ -40,7 +40,7 @@ class EmployeeListEndpoint: EmployeeListEndpointProtocol {
                 } catch {
                     return Single.error(error)
                 }
-        }
+            }
     }
 }
 
@@ -49,7 +49,7 @@ extension EmployeeListEndpoint {
         case success
         case error
         case empty
-        
+
         fileprivate var url: URL {
             switch self {
             case .success:
@@ -61,12 +61,12 @@ extension EmployeeListEndpoint {
             }
         }
     }
-    
+
     enum Error: Swift.Error {
         case serverError
         case parsingError
     }
-    
+
     struct Response: Codable {
         let employees: [Employee]
     }

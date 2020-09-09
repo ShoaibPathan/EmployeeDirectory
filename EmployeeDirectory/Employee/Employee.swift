@@ -18,7 +18,7 @@ struct Employee: Codable, Equatable {
     let photoLarge: URL?
     let team: String
     let classification: Employee.Classification
-    
+
     enum CodingKeys: String, CodingKey {
         case uuid
         case fullName = "full_name"

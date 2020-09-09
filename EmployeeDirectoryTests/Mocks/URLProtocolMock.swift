@@ -11,12 +11,12 @@ import XCTest
 
 class URLProtocolMock: URLProtocol {
     static var requestHandler: ((URLRequest) throws -> (HTTPURLResponse, Data?))?
-    static weak var testCase: XCTestCase?
-    
-    override class func canInit(with request: URLRequest) -> Bool { true }
-    
+    weak static var testCase: XCTestCase?
+
+    override class func canInit(with _: URLRequest) -> Bool { true }
+
     override class func canonicalRequest(for request: URLRequest) -> URLRequest { request }
-    
+
     override func startLoading() {
         guard let requestHandler = URLProtocolMock.requestHandler else {
             URLProtocolMock.testCase?.recordFailure(withDescription: "No request handler",
@@ -36,6 +36,6 @@ class URLProtocolMock: URLProtocol {
             client?.urlProtocol(self, didFailWithError: error)
         }
     }
-    
+
     override func stopLoading() {}
 }

@@ -14,7 +14,7 @@ extension UIViewController {
         (container ?? view).addSubview(child.view)
         child.didMove(toParent: self)
     }
-    
+
     func pinToEdges(of container: UIView, edgeInsets insets: UIEdgeInsets = .zero) {
         view.pinToEdges(of: container, edgeInsets: insets)
     }

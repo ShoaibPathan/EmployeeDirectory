@@ -6,8 +6,8 @@
 //  Copyright © 2020 Patrick Maltagliati. All rights reserved.
 //
 
-import XCTest
 import Foundation
+import XCTest
 
 extension Employee {
     static var test: Employee {
@@ -23,8 +23,8 @@ extension Employee {
             classification: Employee.Classification.allCases.randomElement() ?? .contractor
         )
     }
-    
+
     static var testMany: [Employee] {
-        (0...Int.random(in: 3...6)).map { _ in Employee.test }
+        (0 ... Int.random(in: 3 ... 6)).map { _ in Employee.test }
     }
 }

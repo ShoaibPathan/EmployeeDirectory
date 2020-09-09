@@ -3,6 +3,7 @@ target 'EmployeeDirectory' do
 
   pod 'RxSwift', '~> 5'
   pod 'RxCocoa', '~> 5'
+  pod 'SwiftFormat/CLI'
 
   target 'EmployeeDirectoryTests' do
     inherit! :search_paths

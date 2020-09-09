@@ -9,7 +9,7 @@
 import UIKit
 
 extension UIViewController {
-    func firstChildViewController<T: UIViewController>(ofType ttype: T.Type) -> T? {
+    func firstChildViewController<T: UIViewController>(ofType _: T.Type) -> T? {
         children.compactMap { $0 as? T }.first
     }
 }

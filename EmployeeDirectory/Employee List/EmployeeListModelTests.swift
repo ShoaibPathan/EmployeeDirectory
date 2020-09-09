@@ -6,9 +6,9 @@
 //  Copyright © 2020 Patrick Maltagliati. All rights reserved.
 //
 
-import XCTest
 import RxSwift
 import RxTest
+import XCTest
 
 class EmployeeListModelTests: XCTestCase {
     private var testObject: EmployeeListModel!
@@ -49,7 +49,7 @@ private extension EmployeeListModelTests {
     class EmployeeListEndpointProtocolMock: EmployeeListEndpointProtocol {
         private(set) var versionList = [EmployeeListEndpoint.Version]()
         var stubbedResponse: Single<[Employee]>?
-        
+
         func load(_ version: EmployeeListEndpoint.Version) -> Single<[Employee]> {
             versionList.append(version)
             return stubbedResponse ?? .never()

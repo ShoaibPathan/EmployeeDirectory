@@ -19,7 +19,7 @@ class EmployeeTests: XCTestCase {
     private var team: String!
     private var classification: Employee.Classification!
     private var decoder: JSONDecoder!
-    
+
     override func setUpWithError() throws {
         uuid = UUID()
         fullName = UUID().uuidString
@@ -32,7 +32,7 @@ class EmployeeTests: XCTestCase {
         classification = try XCTUnwrap(Employee.Classification.allCases.randomElement())
         decoder = JSONDecoder()
     }
-    
+
     func testCodable() throws {
         let input = Employee(uuid: uuid,
                              fullName: fullName,
@@ -47,7 +47,7 @@ class EmployeeTests: XCTestCase {
         let testObject = try decoder.decode(Employee.self, from: data)
         XCTAssertEqual(testObject, input)
     }
-    
+
     func testDecodable() throws {
         let json = """
         {
@@ -73,7 +73,7 @@ class EmployeeTests: XCTestCase {
         XCTAssertEqual(testObject.team, team)
         XCTAssertEqual(testObject.classification, classification)
     }
-    
+
     func testDecodableWithoutPhoneNumber() throws {
         let json = """
         {
@@ -98,7 +98,7 @@ class EmployeeTests: XCTestCase {
         XCTAssertEqual(testObject.team, team)
         XCTAssertEqual(testObject.classification, classification)
     }
-    
+
     func testDecodableWithoutBiography() throws {
         let json = """
         {
@@ -123,7 +123,7 @@ class EmployeeTests: XCTestCase {
         XCTAssertEqual(testObject.team, team)
         XCTAssertEqual(testObject.classification, classification)
     }
-    
+
     func testDecodableWithoutSmallPhoto() throws {
         let json = """
         {
@@ -148,7 +148,7 @@ class EmployeeTests: XCTestCase {
         XCTAssertEqual(testObject.team, team)
         XCTAssertEqual(testObject.classification, classification)
     }
-    
+
     func testDecodableWithoutLargePhoto() throws {
         let json = """
         {

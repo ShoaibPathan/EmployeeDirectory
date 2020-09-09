@@ -12,11 +12,12 @@ class EmployeeListNavigationController: UINavigationController {
     init() {
         super.init(rootViewController: EmployeeListContainerViewController())
     }
-    
-    required init?(coder aDecoder: NSCoder) {
+
+    @available(*, unavailable)
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationBar.prefersLargeTitles = true

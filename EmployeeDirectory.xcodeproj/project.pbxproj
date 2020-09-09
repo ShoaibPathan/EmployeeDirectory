@@ -18,6 +18,7 @@
 		9705DE5C250847D200A43645 /* EmployeeListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9705DE5A250847D200A43645 /* EmployeeListModel.swift */; };
 		9705DE5F2508481300A43645 /* EmployeeListModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9705DE5E2508481300A43645 /* EmployeeListModelTests.swift */; };
 		972F72962508F89700B123DD /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 972F72952508F89700B123DD /* ImageDownloader.swift */; };
+		972F72982509287200B123DD /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 972F72952508F89700B123DD /* ImageDownloader.swift */; };
 		976549CE2508014300171037 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 976549CD2508014300171037 /* AppDelegate.swift */; };
 		976549D02508014300171037 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 976549CF2508014300171037 /* SceneDelegate.swift */; };
 		976549D82508014300171037 /* EmployeeDirectory.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 976549D62508014300171037 /* EmployeeDirectory.xcdatamodeld */; };
@@ -259,6 +260,7 @@
 			buildConfigurationList = 976549EC2508014400171037 /* Build configuration list for PBXNativeTarget "EmployeeDirectory" */;
 			buildPhases = (
 				65F6329482966D43E645B6A2 /* [CP] Check Pods Manifest.lock */,
+				972F72972509274400B123DD /* Swift Format */,
 				976549C62508014300171037 /* Sources */,
 				976549C72508014300171037 /* Frameworks */,
 				976549C82508014300171037 /* Resources */,
@@ -373,6 +375,24 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		972F72972509274400B123DD /* Swift Format */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Swift Format";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/SwiftFormat/CommandLineTool/swiftformat\" \"$SRCROOT\"\n";
+		};
 		A7D10A0694E047D234722791 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -471,6 +491,7 @@
 				97FB74F7250807B3008E6154 /* EmployeeListNavigationControllerTests.swift in Sources */,
 				97FB750325080CCC008E6154 /* EmployeeTests.swift in Sources */,
 				9705DE5F2508481300A43645 /* EmployeeListModelTests.swift in Sources */,
+				972F72982509287200B123DD /* ImageDownloader.swift in Sources */,
 				9705DE5C250847D200A43645 /* EmployeeListModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
