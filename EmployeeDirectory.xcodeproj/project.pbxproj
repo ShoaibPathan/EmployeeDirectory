@@ -17,6 +17,7 @@
 		9705DE5B250847D200A43645 /* EmployeeListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9705DE5A250847D200A43645 /* EmployeeListModel.swift */; };
 		9705DE5C250847D200A43645 /* EmployeeListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9705DE5A250847D200A43645 /* EmployeeListModel.swift */; };
 		9705DE5F2508481300A43645 /* EmployeeListModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9705DE5E2508481300A43645 /* EmployeeListModelTests.swift */; };
+		972F72962508F89700B123DD /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 972F72952508F89700B123DD /* ImageDownloader.swift */; };
 		976549CE2508014300171037 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 976549CD2508014300171037 /* AppDelegate.swift */; };
 		976549D02508014300171037 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 976549CF2508014300171037 /* SceneDelegate.swift */; };
 		976549D82508014300171037 /* EmployeeDirectory.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 976549D62508014300171037 /* EmployeeDirectory.xcdatamodeld */; };
@@ -61,6 +62,7 @@
 		9705DE5825083E0000A43645 /* Employee+TestExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Employee+TestExtensions.swift"; sourceTree = "<group>"; };
 		9705DE5A250847D200A43645 /* EmployeeListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeListModel.swift; sourceTree = "<group>"; };
 		9705DE5E2508481300A43645 /* EmployeeListModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeListModelTests.swift; sourceTree = "<group>"; };
+		972F72952508F89700B123DD /* ImageDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDownloader.swift; sourceTree = "<group>"; };
 		976549CA2508014300171037 /* EmployeeDirectory.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EmployeeDirectory.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		976549CD2508014300171037 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		976549CF2508014300171037 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -114,6 +116,14 @@
 			path = Mocks;
 			sourceTree = "<group>";
 		};
+		972F72942508F83900B123DD /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				972F72952508F89700B123DD /* ImageDownloader.swift */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
 		976549C12508014300171037 = {
 			isa = PBXGroup;
 			children = (
@@ -141,6 +151,7 @@
 				97FB74FE25080CA0008E6154 /* Employee */,
 				976549F7250801F500171037 /* Employee List */,
 				976549F82508021600171037 /* Extensions */,
+				972F72942508F83900B123DD /* Images */,
 				976549F5250801D800171037 /* Supporting Files */,
 			);
 			path = EmployeeDirectory;
@@ -434,8 +445,8 @@
 				976549CE2508014300171037 /* AppDelegate.swift in Sources */,
 				976549FD2508029300171037 /* EmployeeListCollectionViewController.swift in Sources */,
 				976549FA2508022C00171037 /* UIViewController+Extensions.swift in Sources */,
-				9705DE5D250847DA00A43645 /* EmployeeTests.swift in Sources */,
 				976549D02508014300171037 /* SceneDelegate.swift in Sources */,
+				972F72962508F89700B123DD /* ImageDownloader.swift in Sources */,
 				976549D82508014300171037 /* EmployeeDirectory.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

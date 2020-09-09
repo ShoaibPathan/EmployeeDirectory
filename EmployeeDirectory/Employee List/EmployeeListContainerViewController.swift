@@ -10,9 +10,18 @@ import UIKit
 import RxSwift
 
 class EmployeeListContainerViewController: UIViewController {
-    private let listCollectionViewController = EmployeeListCollectionViewController()
     private let employeeListModel = EmployeeListModel()
+    private let listCollectionViewController: EmployeeListCollectionViewController
     private let disposeBag = DisposeBag()
+    
+    init() {
+        listCollectionViewController = EmployeeListCollectionViewController(loadImageObserver: employeeListModel.loadImageObserver)
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

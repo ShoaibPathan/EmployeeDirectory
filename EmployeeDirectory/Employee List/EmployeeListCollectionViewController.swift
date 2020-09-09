@@ -7,11 +7,14 @@
 //
 
 import UIKit
+import RxSwift
 
 class EmployeeListCollectionViewController: UICollectionViewController {
+    private let loadImageObserver: AnyObserver<EmployeeListModel.Item>
     private var dataSource: DataSource?
     
-    init() {
+    init(loadImageObserver: AnyObserver<EmployeeListModel.Item>) {
+        self.loadImageObserver = loadImageObserver
         super.init(collectionViewLayout: UICollectionViewLayout.layout)
     }
     
@@ -26,6 +29,11 @@ class EmployeeListCollectionViewController: UICollectionViewController {
         let dataSource = EmployeeListCollectionViewController.DataSource.dataSource(with: collectionView)
         collectionView.dataSource = dataSource
         self.dataSource = dataSource
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard let item = dataSource?.itemIdentifier(for: indexPath) else { return }
+        loadImageObserver.onNext(item)
     }
     
     func apply(snapshot: EmployeeListModel.Snapshot) {
@@ -57,7 +65,9 @@ private extension EmployeeListCollectionViewController {
             stackView.alignment = .center
             stackView.spacing = 2
             
-            imageView.contentMode = .scaleAspectFit
+            imageView.contentMode = .scaleAspectFill
+            imageView.clipsToBounds = true
+            imageView.layer.cornerRadius = 28
             
             contentView.addSubview(imageView)
             contentView.addSubview(stackView)
@@ -65,9 +75,11 @@ private extension EmployeeListCollectionViewController {
             imageView.translatesAutoresizingMaskIntoConstraints = false
             imageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8).isActive = true
             imageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
+            imageView.heightAnchor.constraint(equalToConstant: 56).isActive = true
+            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor).isActive = true
             
             stackView.translatesAutoresizingMaskIntoConstraints = false
-            stackView.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 4).isActive = true
+            stackView.topAnchor.constraint(greaterThanOrEqualTo: imageView.bottomAnchor, constant: 4).isActive = true
             stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8).isActive = true
             stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 4).isActive = true
             stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -4).isActive = true
@@ -81,11 +93,6 @@ private extension EmployeeListCollectionViewController {
         
         required init?(coder: NSCoder) {
             fatalError("init(coder:) has not been implemented")
-        }
-        
-        override func layoutSubviews() {
-            super.layoutSubviews()
-            imageView.layer.cornerRadius = max(imageView.bounds.width, imageView.bounds.height) / 2
         }
         
         func update(item: EmployeeListModel.Item) {
