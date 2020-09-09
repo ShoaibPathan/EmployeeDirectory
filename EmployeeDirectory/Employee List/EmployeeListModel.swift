@@ -47,7 +47,7 @@ class EmployeeListModel: EmployeeListModelProtocol {
             .scan(NSDiffableDataSourceSnapshot<Section, Item>.empty) { (previousSnapshot, values) -> NSDiffableDataSourceSnapshot<Section, Item> in
                 var newSnapshot = NSDiffableDataSourceSnapshot<Section, Item>.empty
                 let (employees, imageValues) = values
-                let items = employees.map { (employee: Employee) -> Item in
+                let items = employees.sorted(by: { $0.fullName < $1.fullName }).map { (employee: Employee) -> Item in
                     let id = employee.uuid
                     let title = employee.fullName
                     let subtitle = employee.team
