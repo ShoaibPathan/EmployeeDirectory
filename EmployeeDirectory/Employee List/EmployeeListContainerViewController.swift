@@ -14,7 +14,7 @@ class EmployeeListContainerViewController: UIViewController {
     private let listCollectionViewController: EmployeeListCollectionViewController
     private let disposeBag = DisposeBag()
 
-    init(dataStack: DataStack) {
+    init(dataStack: DataStackProtocol) {
         employeeListModel = EmployeeListModel(dataStack: dataStack)
         listCollectionViewController = EmployeeListCollectionViewController(loadImageObserver: employeeListModel.loadImageObserver)
         super.init(nibName: nil, bundle: nil)

@@ -19,7 +19,7 @@ protocol EmployeeListModelProtocol {
 
 class EmployeeListModel: EmployeeListModelProtocol {
     let snapshot: Observable<NSDiffableDataSourceSnapshot<Section, Item>>
-    private let dataStack: DataStack
+    private let dataStack: DataStackProtocol
     private let employeeListEndpoint: EmployeeListEndpointProtocol
     private let scheduler: SchedulerType
     private let disposeBag = DisposeBag()
@@ -39,7 +39,7 @@ class EmployeeListModel: EmployeeListModelProtocol {
         }
     }
 
-    init(dataStack: DataStack,
+    init(dataStack: DataStackProtocol,
          employeeListEndpoint: EmployeeListEndpointProtocol = EmployeeListEndpoint(),
          scheduler: SchedulerType = SerialDispatchQueueScheduler(qos: .userInteractive))
     {

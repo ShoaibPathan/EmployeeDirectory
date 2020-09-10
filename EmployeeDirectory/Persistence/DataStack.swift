@@ -9,7 +9,12 @@
 import CoreData
 import Foundation
 
-class DataStack {
+protocol DataStackProtocol {
+    var persistentContainer: NSPersistentContainer { get }
+    func saveContext()
+}
+
+class DataStack: DataStackProtocol {
     lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "EmployeeDirectory")
         container.loadPersistentStores { _, error in

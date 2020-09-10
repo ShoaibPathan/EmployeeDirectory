@@ -22,7 +22,7 @@ class EmployeeListModelTests: XCTestCase {
         observer = testScheduler.createObserver(EmployeeListModel.Snapshot.self)
         disposeBag = DisposeBag()
         mockEmployeeListEndpoint = EmployeeListEndpointProtocolMock()
-        testObject = EmployeeListModel(employeeListEndpoint: mockEmployeeListEndpoint, scheduler: testScheduler)
+        testObject = EmployeeListModel(dataStack: DataStackProtocolMock(), employeeListEndpoint: mockEmployeeListEndpoint, scheduler: testScheduler)
         testObject.snapshot.subscribe(observer.asObserver()).disposed(by: disposeBag)
     }
 

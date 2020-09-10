@@ -9,9 +9,7 @@
 import UIKit
 
 class EmployeeListNavigationController: UINavigationController {
-    private let dataStack = DataStack()
-
-    init(dataStack: DataStack) {
+    init(dataStack: DataStackProtocol) {
         super.init(rootViewController: EmployeeListContainerViewController(dataStack: dataStack))
     }
 

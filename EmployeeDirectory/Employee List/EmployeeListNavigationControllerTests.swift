@@ -13,7 +13,7 @@ class EmployeeListNavigationControllerTests: XCTestCase {
     private var previousRootViewController: UIViewController!
 
     override func setUpWithError() throws {
-        testObject = EmployeeListNavigationController()
+        testObject = EmployeeListNavigationController(dataStack: DataStackProtocolMock())
         previousRootViewController = make(rootViewController: testObject)
     }
 
