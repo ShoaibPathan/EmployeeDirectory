@@ -13,6 +13,7 @@ import UIKit
 
 protocol EmployeeListModelProtocol {
     var snapshot: Observable<EmployeeListModel.Snapshot> { get }
+    var issue: Observable<EmployeeListModel.Issue> { get }
     var loadImageObserver: AnyObserver<EmployeeListModel.Item> { get }
     func load(_ version: EmployeeListEndpoint.Version)
 }
@@ -27,6 +28,7 @@ class EmployeeListModel: EmployeeListModelProtocol {
     private let imageDownloader = ImageDownloader()
     private let imageRelay = BehaviorRelay<(UUID, UIImage, URL)?>(value: nil)
     private var loadingImages = Set<UUID>()
+    private let issueRelay = PublishRelay<Issue>()
 
     var loadImageObserver: AnyObserver<EmployeeListModel.Item> {
         AnyObserver<EmployeeListModel.Item> { [weak self] event in
@@ -38,6 +40,8 @@ class EmployeeListModel: EmployeeListModelProtocol {
             self.getSmallPhotoFromCacheOrLoadFromUrlForItemWith(id: item.id)
         }
     }
+
+    var issue: Observable<EmployeeListModel.Issue> { issueRelay.asObservable() }
 
     init(dataStack: DataStackProtocol,
          employeeListEndpoint: EmployeeListEndpointProtocol = EmployeeListEndpoint(),
@@ -99,10 +103,16 @@ class EmployeeListModel: EmployeeListModelProtocol {
             .observeOn(scheduler)
             .subscribe(
                 onSuccess: { [weak self] employees in
+                    guard !employees.isEmpty else {
+                        self?.issueRelay.accept(.empty)
+                        return
+                    }
                     self?.employeesRelay.accept(employees)
                 },
-                onError: { _ in }
-            ) // TODO: Handle Error
+                onError: { [weak self] error in
+                    self?.issueRelay.accept(.error(error))
+                }
+            )
             .disposed(by: disposeBag)
     }
 
@@ -159,6 +169,11 @@ extension EmployeeListModel {
         let title: String
         let subtitle: String
         let image: UIImage
+    }
+
+    enum Issue {
+        case error(Error)
+        case empty
     }
 }
 
