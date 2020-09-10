@@ -1,0 +1,39 @@
+# Patrick Maltagliati
+
+- Tools
+  - Xcode 11.7
+  - iOS 13.7
+  - Cocoapods
+  - RxSwift
+- Area of focus
+  - App architecture and data flow
+    - View Controller Hierarchy
+      - `EmployeeListNavigationController`
+        - Navigation Controller, contains logic for moving between screens in the app
+      - `EmployeeListContainerViewController`
+        - Main view controller of the employee list feature. The main job of this view controller is to glue the smaller component view controllers with the model and handling state transitions.
+      - `EmployeeListCollectionViewController`
+        - Collection view that holds the employee list
+      - `EmployeeListMessageViewController`
+        - Small view controller used to display error or empty messaging to the user
+      - `EmployeeListLoadingViewController`
+        - Small view controller used to display loading spinner
+    - Data flow
+      - `EmployeeListEndpoint`
+        - Responsbile for loading employee JSON 
+      - `ImageDownloader`
+        - Responsible for loading images 
+      - `EmployeeListModel`
+        - Creates the Rx pipeline and defines the main interface between model and view, `NSDiffableDataSourceSnapshot<Section, Item>`. The model will first load the employee list from the endpoint. As the collection view is about to display a cell representing an item in the snapshot, the model begins to download the appropriate photo. Once the photo is downloaded, it is matched with its employee, and a new snapshot is created representing the newly updated item. Additionally, images will be saved to the CoreData managed object context as new records, with the url as the unique key. After the model has finished loading images for a minimum of 3 seconds, the context is saved so the images can be persisted. 
+      - `DataStack`
+        - CoreData stack created from `NSPersistentContainer` 
+  - App can run on either iPhone or iPad, but on-demand loading of images easier to demonstrate on smaller phones due to the collection view cell design.
+- Copied code
+  - I used very little copied code. I brought over some of my favorite extension functions that I use in every project. 
+  - References:
+    - https://medium.com/@dhawaldawar/how-to-mock-urlsession-using-urlprotocol-8b74f389a67a
+    - https://medium.com/better-programming/ios-13-compositional-layouts-in-collectionview-90a574b410b8
+    - https://wwdcbysundell.com/2019/diffable-data-sources-first-look/
+    - https://www.swiftbysundell.com/articles/custom-container-view-controllers-in-swift/
+    - https://blog.hawkimedia.com/2012/03/core-data-image-caching/
+- Total time: ~ 6.5 hours
