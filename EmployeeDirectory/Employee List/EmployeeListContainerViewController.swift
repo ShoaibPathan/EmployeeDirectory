@@ -17,7 +17,7 @@ class EmployeeListContainerViewController: UIViewController {
     private let loadingViewController = EmployeeListLoadingViewController()
     private let errorViewController: EmployeeListMessageViewController
     private let emptyViewController: EmployeeListMessageViewController
-    private var disposeBag = DisposeBag()
+    private let disposeBag = DisposeBag()
 
     init(dataStack: DataStackProtocol) {
         let retryRelay = PublishRelay<Void>()
@@ -51,16 +51,11 @@ class EmployeeListContainerViewController: UIViewController {
         add(emptyViewController)
         errorViewController.pinToEdges(of: view)
 
-        prepareSubscription()
+        prepareSubscriptions()
+        loadEmployeeList()
     }
 
-    private func prepareSubscription() {
-        disposeBag = DisposeBag()
-
-        loadingViewController.view.isHidden = false
-        errorViewController.view.isHidden = true
-        emptyViewController.view.isHidden = true
-
+    private func prepareSubscriptions() {
         employeeListModel
             .snapshot
             .observeOn(MainScheduler.instance)
@@ -91,11 +86,16 @@ class EmployeeListContainerViewController: UIViewController {
             .subscribeOn(MainScheduler.instance)
             .subscribe { [weak self] event in
                 guard case .next = event else { return }
-                self?.prepareSubscription()
+                self?.loadEmployeeList()
             }
             .disposed(by: disposeBag)
+    }
 
+    private func loadEmployeeList() {
         let version = EmployeeListEndpoint.Version.allCases.randomElement() ?? .success
+        loadingViewController.view.isHidden = false
+        errorViewController.view.isHidden = true
+        emptyViewController.view.isHidden = true
         employeeListModel.load(version)
     }
 }
