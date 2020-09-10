@@ -146,7 +146,8 @@ class EmployeeListModel: EmployeeListModelProtocol {
     private func loadSmallPhotoForItemWith(id: UUID, url: URL) {
         imageDownloader
             .download(url: url)
-            .delaySubscription(.milliseconds(Int.random(in: 300 ... 3000)), scheduler: scheduler)
+            /// Uncomment to add delay to image downloads to simulate a slower network
+//            .delaySubscription(.milliseconds(Int.random(in: 300 ... 3000)), scheduler: scheduler)
             .map { image in (id, image, url) }
             .observeOn(scheduler)
             .subscribe(
