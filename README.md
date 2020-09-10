@@ -5,6 +5,12 @@
   - iOS 13.7
   - Cocoapods
   - RxSwift
+  - swiftformat
+    - swiftformat is used on my current project and I like how it makes my code consistent without any extra work.
+  - **Project setup** 
+    - `gem install cocoapods`
+    - `pod install`
+    - open `EmployeeDirectory.xcworkspace` to build, run, and test the app
 - Area of focus
   - App architecture and data flow
     - View Controller Hierarchy
@@ -36,4 +42,4 @@
     - https://wwdcbysundell.com/2019/diffable-data-sources-first-look/
     - https://www.swiftbysundell.com/articles/custom-container-view-controllers-in-swift/
     - https://blog.hawkimedia.com/2012/03/core-data-image-caching/
-- Total time: ~ 6.5 hours
+- Total time: ~ 7.5 hours
