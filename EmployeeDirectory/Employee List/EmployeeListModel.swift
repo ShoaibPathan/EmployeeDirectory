@@ -32,6 +32,7 @@ class EmployeeListModel: EmployeeListModelProtocol {
     private lazy var imageContext: NSManagedObjectContext = {
         let context = dataStack.persistentContainer.newBackgroundContext()
         context.automaticallyMergesChangesFromParent = true
+        context.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
         return context
     }()
 
@@ -101,7 +102,11 @@ class EmployeeListModel: EmployeeListModelProtocol {
             .subscribe { [weak self] _ in
                 guard let context = self?.imageContext, context.hasChanges else { return }
                 context.perform {
-                    try? context.save()
+                    do {
+                        try context.save()
+                    } catch {
+                        print(error)
+                    }
                 }
             }
             .disposed(by: disposeBag)
