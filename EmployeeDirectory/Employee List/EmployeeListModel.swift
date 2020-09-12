@@ -29,6 +29,11 @@ class EmployeeListModel: EmployeeListModelProtocol {
     private let imageRelay = BehaviorRelay<(UUID, UIImage, URL)?>(value: nil)
     private var loadingImages = Set<UUID>()
     private let issueRelay = PublishRelay<Issue>()
+    private lazy var imageContext: NSManagedObjectContext = {
+        let context = dataStack.persistentContainer.newBackgroundContext()
+        context.automaticallyMergesChangesFromParent = true
+        return context
+    }()
 
     var loadImageObserver: AnyObserver<EmployeeListModel.Item> {
         AnyObserver<EmployeeListModel.Item> { [weak self] event in
@@ -80,10 +85,12 @@ class EmployeeListModel: EmployeeListModelProtocol {
             .subscribe { [weak self] event in
                 guard case let .next(values) = event else { return }
                 let (_, image, url) = values
-                guard let context = self?.dataStack.persistentContainer.viewContext else { return }
-                guard let imageManagedObject = NSEntityDescription.insertNewObject(forEntityName: "Image", into: context) as? ImageMO else { return }
-                imageManagedObject.id = url.absoluteString
-                imageManagedObject.value = image
+                guard let context = self?.imageContext else { return }
+                context.perform {
+                    let imageManagedObject = ImageMO(context: context)
+                    imageManagedObject.id = url.absoluteString
+                    imageManagedObject.value = image
+                }
             }
             .disposed(by: disposeBag)
 
@@ -92,7 +99,10 @@ class EmployeeListModel: EmployeeListModelProtocol {
             .debounce(.seconds(3), scheduler: scheduler)
             .observeOn(scheduler)
             .subscribe { [weak self] _ in
-                self?.dataStack.saveContext()
+                guard let context = self?.imageContext, context.hasChanges else { return }
+                context.perform {
+                    try? context.save()
+                }
             }
             .disposed(by: disposeBag)
     }
@@ -131,11 +141,12 @@ class EmployeeListModel: EmployeeListModelProtocol {
                     let (id, url) = values
                     let fetchRequest = NSFetchRequest<ImageMO>(entityName: "Image")
                     fetchRequest.predicate = NSPredicate(format: "id = %@", url.absoluteString)
-                    let context = self?.dataStack.persistentContainer.viewContext
-                    if let image = try? context?.fetch(fetchRequest).first?.value as? UIImage {
-                        self?.imageRelay.accept((id, image, url))
-                    } else {
-                        self?.loadSmallPhotoForItemWith(id: id, url: url)
+                    self?.imageContext.perform {
+                        if let image = try? self?.imageContext.fetch(fetchRequest).first?.value as? UIImage {
+                            self?.imageRelay.accept((id, image, url))
+                        } else {
+                            self?.loadSmallPhotoForItemWith(id: id, url: url)
+                        }
                     }
                 },
                 onError: nil
