@@ -100,8 +100,9 @@ class EmployeeListModel: EmployeeListModelProtocol {
             .debounce(.seconds(3), scheduler: scheduler)
             .observeOn(scheduler)
             .subscribe { [weak self] _ in
-                guard let context = self?.imageContext, context.hasChanges else { return }
+                guard let context = self?.imageContext else { return }
                 context.perform {
+                    guard context.hasChanges else { return }
                     do {
                         try context.save()
                     } catch {
