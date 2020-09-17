@@ -32,6 +32,8 @@
 		976549FB2508022C00171037 /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 976549F92508022C00171037 /* UIViewController+Extensions.swift */; };
 		976549FD2508029300171037 /* EmployeeListCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 976549FC2508029300171037 /* EmployeeListCollectionViewController.swift */; };
 		976549FE2508029300171037 /* EmployeeListCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 976549FC2508029300171037 /* EmployeeListCollectionViewController.swift */; };
+		9777EC882513E4A900A1773C /* ImageValueTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9777EC872513E4A900A1773C /* ImageValueTransformer.swift */; };
+		9777EC892513E4A900A1773C /* ImageValueTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9777EC872513E4A900A1773C /* ImageValueTransformer.swift */; };
 		97F4101E25099FAE007AC421 /* EmployeeDirectory.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 976549D62508014300171037 /* EmployeeDirectory.xcdatamodeld */; };
 		97F410202509A05A007AC421 /* DataStackProtocolMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97F4101F2509A05A007AC421 /* DataStackProtocolMock.swift */; };
 		97F410222509A635007AC421 /* EmployeeListErrorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97F410212509A635007AC421 /* EmployeeListErrorViewController.swift */; };
@@ -85,6 +87,7 @@
 		976549F2250801B700171037 /* EmployeeListContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeListContainerViewController.swift; sourceTree = "<group>"; };
 		976549F92508022C00171037 /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
 		976549FC2508029300171037 /* EmployeeListCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeListCollectionViewController.swift; sourceTree = "<group>"; };
+		9777EC872513E4A900A1773C /* ImageValueTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageValueTransformer.swift; sourceTree = "<group>"; };
 		97F4101F2509A05A007AC421 /* DataStackProtocolMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStackProtocolMock.swift; sourceTree = "<group>"; };
 		97F410212509A635007AC421 /* EmployeeListErrorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeListErrorViewController.swift; sourceTree = "<group>"; };
 		97F410242509AACB007AC421 /* EmployeeListLoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeListLoadingViewController.swift; sourceTree = "<group>"; };
@@ -142,6 +145,7 @@
 			isa = PBXGroup;
 			children = (
 				972F729B2509306700B123DD /* DataStack.swift */,
+				9777EC872513E4A900A1773C /* ImageValueTransformer.swift */,
 			);
 			path = Persistence;
 			sourceTree = "<group>";
@@ -489,6 +493,7 @@
 				972F729C2509306700B123DD /* DataStack.swift in Sources */,
 				97F410222509A635007AC421 /* EmployeeListErrorViewController.swift in Sources */,
 				976549CE2508014300171037 /* AppDelegate.swift in Sources */,
+				9777EC882513E4A900A1773C /* ImageValueTransformer.swift in Sources */,
 				97F410252509AACB007AC421 /* EmployeeListLoadingViewController.swift in Sources */,
 				976549FD2508029300171037 /* EmployeeListCollectionViewController.swift in Sources */,
 				976549FA2508022C00171037 /* UIViewController+Extensions.swift in Sources */,
@@ -503,6 +508,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				976549FE2508029300171037 /* EmployeeListCollectionViewController.swift in Sources */,
+				9777EC892513E4A900A1773C /* ImageValueTransformer.swift in Sources */,
 				97FB74F5250807A1008E6154 /* EmployeeListContainerViewControllerTests.swift in Sources */,
 				97FB74FA250808D7008E6154 /* UIViewController+TestExtensions.swift in Sources */,
 				972F729D2509306700B123DD /* DataStack.swift in Sources */,
