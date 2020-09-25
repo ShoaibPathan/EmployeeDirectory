@@ -271,7 +271,7 @@ private extension NSDiffableDataSourceSnapshot where SectionIdentifierType == Em
     }
 }
 
-private extension UIImage {
+extension UIImage {
     static var placeholder: UIImage {
         UIImage(systemName: "person.circle") ?? UIImage()
     }
@@ -292,7 +292,7 @@ private extension EmployeeMO {
     }
 }
 
-private extension Employee {
+extension Employee {
     init?(_ employeeMO: EmployeeMO) {
         guard
             let uuidString = employeeMO.uuid,

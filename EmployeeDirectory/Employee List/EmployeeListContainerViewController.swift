@@ -19,11 +19,11 @@ class EmployeeListContainerViewController: UIViewController {
     private let emptyViewController: EmployeeListMessageViewController
     private let disposeBag = DisposeBag()
 
-    init(dataStack: DataStackProtocol) {
+    init(dataStack: DataStackProtocol, selectedEmployeeObserver: AnyObserver<UUID>) {
         let retryRelay = PublishRelay<Void>()
         let retryObserver = AnyObserver<Void>(eventHandler: { _ in retryRelay.accept(()) })
         employeeListModel = EmployeeListModel(dataStack: dataStack)
-        listCollectionViewController = EmployeeListCollectionViewController(loadImageObserver: employeeListModel.loadImageObserver)
+        listCollectionViewController = EmployeeListCollectionViewController(loadImageObserver: employeeListModel.loadImageObserver, selectedEmployeeObserver: selectedEmployeeObserver)
         errorViewController = EmployeeListMessageViewController(message: "Sorry, something went wrong...", retryObserver: retryObserver)
         emptyViewController = EmployeeListMessageViewController(message: "No Employees... Maybe Hire Pat? 😉", retryObserver: retryObserver)
         self.retryRelay = retryRelay

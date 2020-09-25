@@ -6,11 +6,19 @@
 //  Copyright © 2020 Patrick Maltagliati. All rights reserved.
 //
 
+import RxCocoa
+import RxSwift
 import UIKit
 
 class EmployeeListNavigationController: UINavigationController {
+    private let dataStack: DataStackProtocol
+    private let idRelay = PublishSubject<UUID>()
+    private let disposeBag = DisposeBag()
+
     init(dataStack: DataStackProtocol) {
-        super.init(rootViewController: EmployeeListContainerViewController(dataStack: dataStack))
+        self.dataStack = dataStack
+        super.init(rootViewController: EmployeeListContainerViewController(dataStack: dataStack,
+                                                                           selectedEmployeeObserver: idRelay.asObserver()))
     }
 
     @available(*, unavailable)
@@ -21,5 +29,15 @@ class EmployeeListNavigationController: UINavigationController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationBar.prefersLargeTitles = true
+
+        idRelay
+            .observeOn(MainScheduler.instance)
+            .subscribe { [weak self] event in
+                guard let self = self else { return }
+                guard case let .next(id) = event else { return }
+                let viewController = EmployeeDetailViewController(dataStack: self.dataStack, selectedEmployeeId: id)
+                self.pushViewController(viewController, animated: true)
+            }
+            .disposed(by: disposeBag)
     }
 }

@@ -11,10 +11,12 @@ import UIKit
 
 class EmployeeListCollectionViewController: UICollectionViewController {
     private let loadImageObserver: AnyObserver<EmployeeListModel.Item>
+    private let selectedEmployeeObserver: AnyObserver<UUID>
     private var dataSource: DataSource?
 
-    init(loadImageObserver: AnyObserver<EmployeeListModel.Item>) {
+    init(loadImageObserver: AnyObserver<EmployeeListModel.Item>, selectedEmployeeObserver: AnyObserver<UUID>) {
         self.loadImageObserver = loadImageObserver
+        self.selectedEmployeeObserver = selectedEmployeeObserver
         super.init(collectionViewLayout: UICollectionViewLayout.layout)
     }
 
@@ -35,6 +37,11 @@ class EmployeeListCollectionViewController: UICollectionViewController {
     override func collectionView(_: UICollectionView, willDisplay _: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         guard let item = dataSource?.itemIdentifier(for: indexPath) else { return }
         loadImageObserver.onNext(item)
+    }
+
+    override func collectionView(_: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let id = dataSource?.itemIdentifier(for: indexPath)?.id else { return }
+        selectedEmployeeObserver.onNext(id)
     }
 
     func apply(snapshot: EmployeeListModel.Snapshot) {
