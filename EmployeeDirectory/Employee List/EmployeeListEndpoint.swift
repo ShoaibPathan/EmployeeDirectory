@@ -18,7 +18,7 @@ class EmployeeListEndpoint: EmployeeListEndpointProtocol {
     private let urlSession: URLSession
     private let decoder = JSONDecoder()
 
-    init(urlSession: URLSession = .shared) {
+    init(urlSession: URLSession = URLSession(configuration: .ephemeral)) {
         self.urlSession = urlSession
     }
 

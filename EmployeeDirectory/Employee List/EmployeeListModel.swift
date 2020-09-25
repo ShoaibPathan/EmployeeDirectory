@@ -18,8 +18,7 @@ protocol EmployeeListModelProtocol {
     func load(_ version: EmployeeListEndpoint.Version)
 }
 
-class EmployeeListModel: EmployeeListModelProtocol {
-    let snapshot: Observable<NSDiffableDataSourceSnapshot<Section, Item>>
+class EmployeeListModel: NSObject, EmployeeListModelProtocol {
     private let dataStack: DataStackProtocol
     private let employeeListEndpoint: EmployeeListEndpointProtocol
     private let scheduler: SchedulerType
@@ -35,6 +34,28 @@ class EmployeeListModel: EmployeeListModelProtocol {
         context.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
         return context
     }()
+
+    private lazy var employeesFetchedResultsContext: NSManagedObjectContext = {
+        let context = dataStack.persistentContainer.newBackgroundContext()
+        context.automaticallyMergesChangesFromParent = true
+        return context
+    }()
+
+    private lazy var employeesFetchedResultsController: NSFetchedResultsController<EmployeeMO> = {
+        let request: NSFetchRequest<EmployeeMO> = EmployeeMO.fetchRequest()
+        request.sortDescriptors = [NSSortDescriptor(key: "fullName", ascending: true)]
+        let controller = NSFetchedResultsController(fetchRequest: request,
+                                                    managedObjectContext: employeesFetchedResultsContext,
+                                                    sectionNameKeyPath: nil,
+                                                    cacheName: nil)
+        controller.delegate = self
+        return controller
+    }()
+
+    private let snapshotRelay = BehaviorRelay<NSDiffableDataSourceSnapshot<Section, Item>?>(value: nil)
+    var snapshot: Observable<NSDiffableDataSourceSnapshot<Section, Item>> {
+        snapshotRelay.compactMap { $0 }.asObservable()
+    }
 
     var loadImageObserver: AnyObserver<EmployeeListModel.Item> {
         AnyObserver<EmployeeListModel.Item> { [weak self] event in
@@ -56,7 +77,9 @@ class EmployeeListModel: EmployeeListModelProtocol {
         self.dataStack = dataStack
         self.employeeListEndpoint = employeeListEndpoint
         self.scheduler = scheduler
-        snapshot = Observable
+        super.init()
+
+        Observable
             .combineLatest(employeesRelay, imageRelay)
             .subscribeOn(scheduler)
             .scan(NSDiffableDataSourceSnapshot<Section, Item>.empty) { (previousSnapshot, values) -> NSDiffableDataSourceSnapshot<Section, Item> in
@@ -79,6 +102,22 @@ class EmployeeListModel: EmployeeListModelProtocol {
                 newSnapshot.appendItems(items, toSection: .main)
                 return newSnapshot
             }
+            .filter { !$0.itemIdentifiers.isEmpty }
+            .subscribe { [weak self] event in
+                guard case let .next(snapshot) = event else { return }
+                self?.snapshotRelay.accept(snapshot)
+            }
+            .disposed(by: disposeBag)
+
+        do {
+            try employeesFetchedResultsController.performFetch()
+            employeesFetchedResultsContext.perform { [weak self] in
+                guard let employees = self?.employeesFetchedResultsController.fetchedObjects?.compactMap(Employee.init) else { return }
+                self?.employeesRelay.accept(employees)
+            }
+        } catch {
+            issueRelay.accept(.error(error))
+        }
 
         imageRelay
             .compactMap { $0 }
@@ -111,11 +150,19 @@ class EmployeeListModel: EmployeeListModelProtocol {
                 }
             }
             .disposed(by: disposeBag)
+
+        issueRelay
+            .subscribe { [weak self] event in
+                guard case .next = event else { return }
+                self?.snapshotRelay.accept(.empty)
+            }
+            .disposed(by: disposeBag)
     }
 
     func load(_ version: EmployeeListEndpoint.Version) {
         employeeListEndpoint
             .load(version)
+            .delaySubscription(.milliseconds(Int.random(in: 300 ... 3000)), scheduler: scheduler)
             .observeOn(scheduler)
             .subscribe(
                 onSuccess: { [weak self] employees in
@@ -123,7 +170,7 @@ class EmployeeListModel: EmployeeListModelProtocol {
                         self?.issueRelay.accept(.empty)
                         return
                     }
-                    self?.employeesRelay.accept(employees)
+                    self?.persistEmployees(employees)
                 },
                 onError: { [weak self] error in
                     self?.issueRelay.accept(.error(error))
@@ -164,7 +211,7 @@ class EmployeeListModel: EmployeeListModelProtocol {
         imageDownloader
             .download(url: url)
             /// Uncomment to add delay to image downloads to simulate a slower network
-//            .delaySubscription(.milliseconds(Int.random(in: 300 ... 3000)), scheduler: scheduler)
+            .delaySubscription(.milliseconds(Int.random(in: 300 ... 3000)), scheduler: scheduler)
             .map { image in (id, image, url) }
             .observeOn(scheduler)
             .subscribe(
@@ -172,6 +219,27 @@ class EmployeeListModel: EmployeeListModelProtocol {
                 onError: nil
             )
             .disposed(by: disposeBag)
+    }
+
+    func persistEmployees(_ employees: [Employee]) {
+        dataStack.persistentContainer.performBackgroundTask { [weak self] context in
+            context.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
+            employees.forEach { EmployeeMO.create(from: $0, context: context) }
+            do {
+                try context.save()
+            } catch {
+                self?.issueRelay.accept(.error(error))
+            }
+        }
+    }
+}
+
+extension EmployeeListModel: NSFetchedResultsControllerDelegate {
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        employeesFetchedResultsContext.perform { [weak self] in
+            guard let results = controller.fetchedObjects as? [EmployeeMO] else { return }
+            self?.employeesRelay.accept(results.compactMap(Employee.init))
+        }
     }
 }
 
@@ -206,5 +274,43 @@ private extension NSDiffableDataSourceSnapshot where SectionIdentifierType == Em
 private extension UIImage {
     static var placeholder: UIImage {
         UIImage(systemName: "person.circle") ?? UIImage()
+    }
+}
+
+private extension EmployeeMO {
+    static func create(from employee: Employee, context: NSManagedObjectContext) {
+        let employeeMO = EmployeeMO(context: context)
+        employeeMO.uuid = employee.uuid.uuidString
+        employeeMO.fullName = employee.fullName
+        employeeMO.phoneNumber = employee.phoneNumber
+        employeeMO.emailAddress = employee.emailAddress
+        employeeMO.biography = employee.biography
+        employeeMO.photoSmall = employee.photoSmall
+        employeeMO.photoLarge = employee.photoLarge
+        employeeMO.team = employee.team
+        employeeMO.classification = employee.classification.rawValue
+    }
+}
+
+private extension Employee {
+    init?(_ employeeMO: EmployeeMO) {
+        guard
+            let uuidString = employeeMO.uuid,
+            let uuid = UUID(uuidString: uuidString),
+            let fullName = employeeMO.fullName,
+            let emailAddress = employeeMO.emailAddress,
+            let team = employeeMO.team,
+            let classificationRawValue = employeeMO.classification,
+            let classification = Employee.Classification(rawValue: classificationRawValue)
+        else { return nil }
+        self.uuid = uuid
+        self.fullName = fullName
+        phoneNumber = employeeMO.phoneNumber
+        self.emailAddress = emailAddress
+        biography = employeeMO.biography
+        photoSmall = employeeMO.photoSmall
+        photoLarge = employeeMO.photoLarge
+        self.team = team
+        self.classification = classification
     }
 }
